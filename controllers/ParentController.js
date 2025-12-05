@@ -1,4 +1,4 @@
-const parentService = require('../services/parentService');
+const parentService = require('../services/ParentService');
 const asyncHandler = require('../middleware/asyncHandler');
 
 // ⭐ Veliye öğrenci ekleme
