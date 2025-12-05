@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const parentController = require('../controllers/parentController');
+const parentController = require('../controllers/ParentController');
 const { authenticateToken, authorizeRoles } = require('../middleware/authMiddleware');
 
 // Admin veliye öğrenci ekler
