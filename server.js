@@ -217,7 +217,7 @@ app.get("/", (req, res) => {
 
       <!-- Müzik -->
       <audio id="music" preload="auto">
-          <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6df1cb1b13.mp3?filename=romantic-piano-ambient-110107.mp3" type="audio/mpeg">
+          <source src="/muzik/romantik.mp3" type="audio/mpeg">
       </audio>
 
       <script>
