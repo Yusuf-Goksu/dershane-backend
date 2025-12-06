@@ -269,6 +269,7 @@ app.use("/api/news", require("./routes/newsRoutes"));
 app.use("/api/chat", require("./routes/chatRoutes"));
 app.use("/api/notifications", require("./routes/notificationRoutes"));
 app.use("/uploads", express.static(__dirname + "/uploads"));
+app.use(express.static("public"));
 
 // ----------------------------------------------------
 // 🔹 8) Global Error Handler
