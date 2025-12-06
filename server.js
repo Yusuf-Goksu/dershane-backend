@@ -110,13 +110,9 @@ app.get("/", (req, res) => {
   <html lang="tr">
   <head>
       <meta charset="UTF-8">
-      <title>✨ Hoş Geldin</title>
+      <title>❤️ Hoş Geldin</title>
 
       <style>
-          :root {
-              --glow-color: rgba(255, 180, 220, 0.7);
-          }
-
           body {
               margin: 0;
               padding: 0;
@@ -124,36 +120,36 @@ app.get("/", (req, res) => {
               display: flex;
               justify-content: center;
               align-items: center;
-              background: radial-gradient(circle at top, #2b0030, #0a0010 70%);
+              background: linear-gradient(135deg, #1b0028, #350041);
               font-family: "Poppins", sans-serif;
               overflow: hidden;
               color: #fff;
           }
 
-          /* Parlayan noktalar (soft glow particles) */
-          .particle {
+          .glow {
               position: absolute;
-              background: var(--glow-color);
-              border-radius: 50%;
-              filter: blur(6px);
-              opacity: 0.6;
-              animation: float 10s infinite;
+              width: 600px;
+              height: 600px;
+              background: radial-gradient(circle, rgba(255,100,180,0.6), transparent 70%);
+              filter: blur(50px);
+              animation: pulse 6s infinite ease-in-out;
           }
 
-          @keyframes float {
-              0% { transform: translateY(0) scale(1); opacity: 0.6; }
-              50% { opacity: 1; }
-              100% { transform: translateY(-120px) scale(1.3); opacity: 0; }
+          @keyframes pulse {
+              0% { transform: scale(1); opacity: 0.5; }
+              50% { transform: scale(1.2); opacity: 0.8; }
+              100% { transform: scale(1); opacity: 0.5; }
           }
 
           .container {
+              z-index: 2;
               text-align: center;
               padding: 40px 50px;
-              background: rgba(255, 255, 255, 0.06);
-              backdrop-filter: blur(14px);
+              background: rgba(255, 255, 255, 0.07);
               border-radius: 20px;
-              box-shadow: 0 0 25px rgba(255, 170, 220, 0.25);
-              animation: fadeIn 1.4s ease-out;
+              backdrop-filter: blur(14px);
+              box-shadow: 0 0 25px rgba(255, 150, 200, 0.25);
+              animation: fadeIn 1.5s ease-out;
           }
 
           @keyframes fadeIn {
@@ -162,64 +158,66 @@ app.get("/", (req, res) => {
           }
 
           h1 {
-              font-size: 2.8rem;
-              margin-bottom: 10px;
-              background: linear-gradient(90deg, #ff8ad6, #ffcff7);
+              font-size: 2.7rem;
+              background: linear-gradient(90deg, #ff7adf, #ffcdf5);
               -webkit-background-clip: text;
               -webkit-text-fill-color: transparent;
+              margin-bottom: 12px;
           }
 
           p {
-              font-size: 1.3rem;
+              font-size: 1.2rem;
               color: #eee;
           }
 
-          .signature {
+          .tap {
               margin-top: 20px;
-              font-size: 1rem;
-              opacity: 0.75;
+              font-size: 0.9rem;
+              opacity: 0.7;
+              animation: blink 1.4s infinite;
+          }
+
+          @keyframes blink {
+              0%, 100% { opacity: 0.7; }
+              50% { opacity: 1; }
           }
       </style>
   </head>
 
   <body>
 
-      <!-- Parlayan noktalar otomatik üretilecek -->
-      <div id="particles"></div>
+      <div class="glow"></div>
 
       <div class="container">
-          <h1>✨ Hoş Geldin Güzel Ruh</h1>
-          <p>Bu sistem çalışıyor… ama sen geldiğinde biraz daha güzelleşiyor.</p>
-          <div class="signature">— Yusuf’un özel alanı</div>
+          <h1>✨ Hoş Geldin Rümeysam</h1>
+          <p>Bu sistem çalışıyor… ama sen geldiğinde daha yumuşak bir melodiye dönüşüyor.</p>
+          <div class="tap">Devam etmek için dokun / tıkla 🎵</div>
       </div>
 
+      <!-- Müzik -->
+      <audio id="music" preload="auto">
+          <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6df1cb1b13.mp3?filename=romantic-piano-ambient-110107.mp3" type="audio/mpeg">
+      </audio>
+
       <script>
-          // Parlak noktaları rastgele oluşturma
-          const particlesContainer = document.getElementById("particles");
-
-          function createParticle() {
-              const p = document.createElement("div");
-              p.classList.add("particle");
-
-              const size = Math.random() * 10 + 4;
-              p.style.width = size + "px";
-              p.style.height = size + "px";
-              p.style.left = Math.random() * 100 + "vw";
-              p.style.top = (60 + Math.random() * 40) + "vh"; 
-              p.style.animationDuration = 6 + Math.random() * 6 + "s";
-
-              particlesContainer.appendChild(p);
-
-              setTimeout(() => p.remove(), 12000);
+          // İlk tıklamada müziği başlat
+          function enableMusic() {
+              const music = document.getElementById("music");
+              music.volume = 0.35;
+              music.play();
+              document.removeEventListener("click", enableMusic);
+              document.removeEventListener("touchstart", enableMusic);
           }
 
-          setInterval(createParticle, 350);
+          document.addEventListener("click", enableMusic);
+          document.addEventListener("touchstart", enableMusic);
       </script>
 
   </body>
   </html>
   `);
 });
+
 
 
 app.use("/api/auth", require("./routes/authRoutes"));
