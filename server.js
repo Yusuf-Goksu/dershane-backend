@@ -166,8 +166,8 @@ app.get("/", (req, res) => {
   <body>
 
       <div class="card">
-          <h1>❤️ Hoş Geldin Güzel İnsan</h1>
-          <p>Bu sistem çalışıyor... ama seni gördüğüne daha çok sevindi. 💕</p>
+          <h1>❤️ Hoş Geldin Rümeysam</h1>
+          <p>Bu sistem çok güzel... ama sen daha güzelsin 💕</p>
       </div>
 
       <script>
