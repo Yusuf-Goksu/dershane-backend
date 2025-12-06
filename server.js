@@ -120,36 +120,56 @@ app.get("/", (req, res) => {
               display: flex;
               justify-content: center;
               align-items: center;
-              background: linear-gradient(135deg, #1b0028, #350041);
+              background: radial-gradient(circle at top, #0a0010, #000000 75%);
               font-family: "Poppins", sans-serif;
               overflow: hidden;
               color: #fff;
+              position: relative;
           }
 
+          /* Arka loş parlama efekti */
           .glow {
               position: absolute;
               width: 600px;
               height: 600px;
-              background: radial-gradient(circle, rgba(255,100,180,0.6), transparent 70%);
-              filter: blur(50px);
-              animation: pulse 6s infinite ease-in-out;
+              background: radial-gradient(circle, rgba(255,100,180,0.4), transparent 70%);
+              filter: blur(90px);
+              animation: pulse 7s infinite ease-in-out;
+              z-index: 1;
           }
 
           @keyframes pulse {
-              0% { transform: scale(1); opacity: 0.5; }
-              50% { transform: scale(1.2); opacity: 0.8; }
-              100% { transform: scale(1); opacity: 0.5; }
+              0% { transform: scale(1); opacity: 0.4; }
+              50% { transform: scale(1.3); opacity: 0.7; }
+              100% { transform: scale(1); opacity: 0.4; }
           }
 
-          .container {
+          /* Kalp animasyonları */
+          .heart {
+              position: absolute;
+              color: rgba(255, 80, 140, 0.8);
+              font-size: 22px;
+              animation: floatUp 6s linear infinite;
               z-index: 2;
+              user-select: none;
+          }
+
+          @keyframes floatUp {
+              0% { transform: translateY(0); opacity: 1; }
+              100% { transform: translateY(-120vh); opacity: 0; }
+          }
+
+          /* Merkez kart */
+          .container {
+              z-index: 3;
               text-align: center;
               padding: 40px 50px;
-              background: rgba(255, 255, 255, 0.07);
+              background: rgba(255, 255, 255, 0.06);
               border-radius: 20px;
               backdrop-filter: blur(14px);
-              box-shadow: 0 0 25px rgba(255, 150, 200, 0.25);
+              box-shadow: 0 0 25px rgba(255, 150, 200, 0.18);
               animation: fadeIn 1.5s ease-out;
+              cursor: pointer; /* tıklanabilir olduğunu hissettirmek için */
           }
 
           @keyframes fadeIn {
@@ -167,7 +187,7 @@ app.get("/", (req, res) => {
 
           p {
               font-size: 1.2rem;
-              color: #eee;
+              color: #ddd;
           }
 
           .tap {
@@ -178,7 +198,7 @@ app.get("/", (req, res) => {
           }
 
           @keyframes blink {
-              0%, 100% { opacity: 0.7; }
+              0%, 100% { opacity: 0.6; }
               50% { opacity: 1; }
           }
       </style>
@@ -188,10 +208,11 @@ app.get("/", (req, res) => {
 
       <div class="glow"></div>
 
-      <div class="container">
-          <h1>✨ Hoş Geldin Rümeysam</h1>
-          <p>Bu sistem çalışıyor… ama sen geldiğinde daha yumuşak bir melodiye dönüşüyor.</p>
-          <div class="tap">Devam etmek için dokun / tıkla 🎵</div>
+      <!-- Merkez kart -->
+      <div class="container" id="tapArea">
+          <h1>✨ Hoş Geldin Güzel Ruh</h1>
+          <p>Bu sistem çalışıyor… ama sen gelince içi daha da ısınıyor.</p>
+          <div class="tap">Devam etmek için tıkla 🎵</div>
       </div>
 
       <!-- Müzik -->
@@ -200,17 +221,35 @@ app.get("/", (req, res) => {
       </audio>
 
       <script>
-          // İlk tıklamada müziği başlat
-          function enableMusic() {
+          /* 🎵 TIKLANINCA MÜZİK BAŞLASIN */
+          function startMusic() {
               const music = document.getElementById("music");
               music.volume = 0.35;
-              music.play();
-              document.removeEventListener("click", enableMusic);
-              document.removeEventListener("touchstart", enableMusic);
+              music.play().catch(() => {});
+              document.removeEventListener("click", startMusic);
+              document.removeEventListener("touchstart", startMusic);
           }
 
-          document.addEventListener("click", enableMusic);
-          document.addEventListener("touchstart", enableMusic);
+          document.addEventListener("click", startMusic);
+          document.addEventListener("touchstart", startMusic);
+
+          /* ❤️ SÜZÜLEN KALPLER */
+          function createHeart() {
+              const heart = document.createElement("div");
+              heart.classList.add("heart");
+              heart.innerHTML = "❤️";
+
+              heart.style.left = Math.random() * 100 + "vw";
+              heart.style.bottom = "-20px";
+              heart.style.fontSize = (18 + Math.random() * 18) + "px";
+              heart.style.animationDuration = (4 + Math.random() * 5) + "s";
+
+              document.body.appendChild(heart);
+
+              setTimeout(() => heart.remove(), 7000);
+          }
+
+          setInterval(createHeart, 400);
       </script>
 
   </body>
