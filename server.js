@@ -110,8 +110,13 @@ app.get("/", (req, res) => {
   <html lang="tr">
   <head>
       <meta charset="UTF-8">
-      <title>❤️ Hoş Geldin</title>
+      <title>✨ Hoş Geldin</title>
+
       <style>
+          :root {
+              --glow-color: rgba(255, 180, 220, 0.7);
+          }
+
           body {
               margin: 0;
               padding: 0;
@@ -119,79 +124,103 @@ app.get("/", (req, res) => {
               display: flex;
               justify-content: center;
               align-items: center;
-              background: linear-gradient(135deg, #ffb6c1, #ff69b4);
+              background: radial-gradient(circle at top, #2b0030, #0a0010 70%);
               font-family: "Poppins", sans-serif;
               overflow: hidden;
+              color: #fff;
           }
 
-          .card {
-              background: white;
-              padding: 40px;
-              border-radius: 20px;
+          /* Parlayan noktalar (soft glow particles) */
+          .particle {
+              position: absolute;
+              background: var(--glow-color);
+              border-radius: 50%;
+              filter: blur(6px);
+              opacity: 0.6;
+              animation: float 10s infinite;
+          }
+
+          @keyframes float {
+              0% { transform: translateY(0) scale(1); opacity: 0.6; }
+              50% { opacity: 1; }
+              100% { transform: translateY(-120px) scale(1.3); opacity: 0; }
+          }
+
+          .container {
               text-align: center;
-              box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-              animation: fadeIn 1.2s ease-in-out;
-          }
-
-          h1 {
-              font-size: 2.5rem;
-              color: #d63384;
-              margin-bottom: 10px;
-          }
-
-          p {
-              font-size: 1.2rem;
-              color: #444;
+              padding: 40px 50px;
+              background: rgba(255, 255, 255, 0.06);
+              backdrop-filter: blur(14px);
+              border-radius: 20px;
+              box-shadow: 0 0 25px rgba(255, 170, 220, 0.25);
+              animation: fadeIn 1.4s ease-out;
           }
 
           @keyframes fadeIn {
-              from { opacity: 0; transform: translateY(20px); }
+              from { opacity: 0; transform: translateY(25px); }
               to { opacity: 1; transform: translateY(0); }
           }
 
-          /* Arka planda uçan kalpler */
-          .heart {
-              position: absolute;
-              color: rgba(255, 0, 102, 0.7);
-              font-size: 24px;
-              animation: floatUp 6s linear infinite;
+          h1 {
+              font-size: 2.8rem;
+              margin-bottom: 10px;
+              background: linear-gradient(90deg, #ff8ad6, #ffcff7);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
           }
 
-          @keyframes floatUp {
-              0% { transform: translateY(0); opacity: 1; }
-              100% { transform: translateY(-800px); opacity: 0; }
+          p {
+              font-size: 1.3rem;
+              color: #eee;
+          }
+
+          .signature {
+              margin-top: 20px;
+              font-size: 1rem;
+              opacity: 0.75;
           }
       </style>
   </head>
+
   <body>
 
-      <div class="card">
-          <h1>❤️ Hoş Geldin Rümeysam</h1>
-          <p>Bu sistem çok güzel... ama sen daha güzelsin 💕</p>
+      <!-- Parlayan noktalar otomatik üretilecek -->
+      <div id="particles"></div>
+
+      <div class="container">
+          <h1>✨ Hoş Geldin Güzel Ruh</h1>
+          <p>Bu sistem çalışıyor… ama sen geldiğinde biraz daha güzelleşiyor.</p>
+          <div class="signature">— Yusuf’un özel alanı</div>
       </div>
 
       <script>
-          // Rastgele uçan kalpler oluştur
-          function createHeart() {
-              const heart = document.createElement("div");
-              heart.classList.add("heart");
-              heart.innerHTML = "❤️";
-              heart.style.left = Math.random() * 100 + "vw";
-              heart.style.fontSize = (20 + Math.random() * 20) + "px";
-              heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+          // Parlak noktaları rastgele oluşturma
+          const particlesContainer = document.getElementById("particles");
 
-              document.body.appendChild(heart);
+          function createParticle() {
+              const p = document.createElement("div");
+              p.classList.add("particle");
 
-              setTimeout(() => heart.remove(), 6000);
+              const size = Math.random() * 10 + 4;
+              p.style.width = size + "px";
+              p.style.height = size + "px";
+              p.style.left = Math.random() * 100 + "vw";
+              p.style.top = (60 + Math.random() * 40) + "vh"; 
+              p.style.animationDuration = 6 + Math.random() * 6 + "s";
+
+              particlesContainer.appendChild(p);
+
+              setTimeout(() => p.remove(), 12000);
           }
 
-          setInterval(createHeart, 400);
+          setInterval(createParticle, 350);
       </script>
 
   </body>
   </html>
   `);
 });
+
 
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/students", require("./routes/studentRoutes"));
