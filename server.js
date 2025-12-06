@@ -105,7 +105,92 @@ connectDB();
 // 🔹 7) Route Imports
 // ----------------------------------------------------
 app.get("/", (req, res) => {
-  res.send("🎓 Dershane API çalışıyor (Kurumsal) ✅");
+  res.send(`
+  <!DOCTYPE html>
+  <html lang="tr">
+  <head>
+      <meta charset="UTF-8">
+      <title>❤️ Hoş Geldin</title>
+      <style>
+          body {
+              margin: 0;
+              padding: 0;
+              height: 100vh;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background: linear-gradient(135deg, #ffb6c1, #ff69b4);
+              font-family: "Poppins", sans-serif;
+              overflow: hidden;
+          }
+
+          .card {
+              background: white;
+              padding: 40px;
+              border-radius: 20px;
+              text-align: center;
+              box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+              animation: fadeIn 1.2s ease-in-out;
+          }
+
+          h1 {
+              font-size: 2.5rem;
+              color: #d63384;
+              margin-bottom: 10px;
+          }
+
+          p {
+              font-size: 1.2rem;
+              color: #444;
+          }
+
+          @keyframes fadeIn {
+              from { opacity: 0; transform: translateY(20px); }
+              to { opacity: 1; transform: translateY(0); }
+          }
+
+          /* Arka planda uçan kalpler */
+          .heart {
+              position: absolute;
+              color: rgba(255, 0, 102, 0.7);
+              font-size: 24px;
+              animation: floatUp 6s linear infinite;
+          }
+
+          @keyframes floatUp {
+              0% { transform: translateY(0); opacity: 1; }
+              100% { transform: translateY(-800px); opacity: 0; }
+          }
+      </style>
+  </head>
+  <body>
+
+      <div class="card">
+          <h1>❤️ Hoş Geldin Güzel İnsan</h1>
+          <p>Bu sistem çalışıyor... ama seni gördüğüne daha çok sevindi. 💕</p>
+      </div>
+
+      <script>
+          // Rastgele uçan kalpler oluştur
+          function createHeart() {
+              const heart = document.createElement("div");
+              heart.classList.add("heart");
+              heart.innerHTML = "❤️";
+              heart.style.left = Math.random() * 100 + "vw";
+              heart.style.fontSize = (20 + Math.random() * 20) + "px";
+              heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+
+              document.body.appendChild(heart);
+
+              setTimeout(() => heart.remove(), 6000);
+          }
+
+          setInterval(createHeart, 400);
+      </script>
+
+  </body>
+  </html>
+  `);
 });
 
 app.use("/api/auth", require("./routes/authRoutes"));
