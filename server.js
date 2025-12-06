@@ -25,6 +25,7 @@ const io = new Server(server, {
     origin: "*",
     methods: ["GET", "POST"],
   },
+  transports: ["websocket"], // <-- Railway + Flutter için kritik
 });
 
 // 🚨 JWT ZORUNLULUĞU KAPATILDI — Flutter token göndermiyor
@@ -257,7 +258,9 @@ app.get("/", (req, res) => {
   `);
 });
 
-
+/*app.get("/", (req, res) => {
+   res.send("🎓 Dershane API çalışıyor (Kurumsal) ✅"); 
+});*/
 
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/students", require("./routes/studentRoutes"));
