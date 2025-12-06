@@ -210,8 +210,8 @@ app.get("/", (req, res) => {
 
       <!-- Merkez kart -->
       <div class="container" id="tapArea">
-          <h1>✨ Hoş Geldin Güzel Ruh</h1>
-          <p>Bu sistem çalışıyor… ama sen gelince içi daha da ısınıyor.</p>
+          <h1>✨ Hoş Geldin Rümeysam</h1>
+          <p>Bu sistem çalışıyor… ama sen gelince hoş bi melodi fısldıyor.</p>
           <div class="tap">Devam etmek için tıkla 🎵</div>
       </div>
 
