@@ -69,6 +69,15 @@ class ChatService {
   // 2) MESAJ GÖNDER
   // ===========================
   async sendMessage(senderUser, { roomId, text, audioUrl }) {
+
+    console.log("📌 Backend senderUser:", senderUser);
+    
+    if (!senderUser || !senderUser._id) {
+      const err = new Error("Gönderen kullanıcı bulunamadı (senderUserId eksik).");
+      err.statusCode = 400;
+      throw err;
+    }
+
     if (!roomId) {
       const err = new Error("roomId gereklidir");
       err.statusCode = 400;
