@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Socket.io Test</title>
+</head>
+<body>
+  <h1>Socket.io Test</h1>
+  <input id="room" placeholder="Room ID" />
+  <button id="join">Join Room</button>
+  <br /><br />
+  <input id="msg" placeholder="Mesaj..." />
+  <button id="send">Send</button>
+  <pre id="log"></pre>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    const socket = io("https://dershane-backend-production.up.railway.app", {
+      transports: ["websocket"],
+    });
+
+    const log = (txt) => {
+      document.getElementById("log").textContent += txt + "\n";
+    };
+
+    socket.on("connect", () => log("✅ Connected: " + socket.id));
+    socket.on("disconnect", () => log("❌ Disconnected"));
+
+    document.getElementById("join").onclick = () => {
+      const roomId = document.getElementById("room").value;
+      socket.emit("joinRoom", roomId);
+      log("🏠 Joined room: " + roomId);
+    };
+
+    document.getElementById("send").onclick = () => {
+      const roomId = document.getElementById("room").value;
+      const text = document.getElementById("msg").value;
+      const data = {
+        roomId,
+        text,
+        sender: "web-tester",
+        time: new Date().toISOString(),
+      };
+      socket.emit("sendMessage", data);
+      log("📤 Sent: " + JSON.stringify(data));
+    };
+
+    socket.on("receiveMessage", (data) => {
+      log("📥 Received: " + JSON.stringify(data));
+    });
+  </script>
+</body>
+</html>

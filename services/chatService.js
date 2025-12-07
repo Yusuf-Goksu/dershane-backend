@@ -119,13 +119,13 @@ class ChatService {
     await room.save();
 
     return {
-      id: message._id,
+      id: message._id.toString(),
       roomId,
-      sender: senderUser._id,
-      receiver: receiver._id,
+      sender: senderUser._id.toString(),
+      receiver: receiver._id.toString(),
       text: text || null,
       audioUrl: audioUrl || null,
-      time: now,
+      time: now.toISOString(),
     };
   }
 

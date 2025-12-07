@@ -51,45 +51,37 @@ io.on("connection", (socket) => {
   // 🔸 Mesaj gönder (Flutter uyumlu format)
   socket.on("sendMessage", async (data) => {
     try {
-      /*
-        Flutter şu formatta yolluyor:
-        {
-          roomId: "123",
-          text: "Merhaba",
-          sender: "userid123",
-          time: "2025-02-12T14:22"
-        }
-      */
-
-      console.log("💬 Mesaj alındı:", data);
-
-      // Eğer DB'ye kaydetmek istersen:
-      /*
+      // 1️⃣ Mesajı DB’ye kaydet
       const savedMessage = await chatService.sendMessage(
-        { _id: data.sender }, 
-        data.roomId, 
-        { type: "text", text: data.text }
+        { _id: data.sender }, // sender ID
+        { roomId: data.roomId, text: data.text, audioUrl: data.audioUrl }
       );
-      io.to(data.roomId).emit("receiveMessage", savedMessage);
-      */
 
-      // Şimdilik direkt geri gönderiyoruz (Flutter bu formatı dinliyor)
-      io.to(data.roomId).emit("receiveMessage", data);
+      const cleanMessage = {
+        id: savedMessage.id.toString(),
+        roomId: savedMessage.roomId.toString(),
+        sender: savedMessage.sender.toString(),
+        receiver: savedMessage.receiver.toString(),
+        text: savedMessage.text,
+        audioUrl: savedMessage.audioUrl,
+        time: savedMessage.time,
+      };
 
-      console.log(`📤 Mesaj gönderildi → ${data.roomId}`);
+      // 2️⃣ Odaya gerçek zamanlı yayınla
+      io.to(data.roomId).emit("receiveMessage", cleanMessage);
+
+      console.log("📤 Mesaj gönderildi:", savedMessage);
 
     } catch (err) {
-      console.error("❌ sendMessage hatası:", err);
-      socket.emit("errorMessage", {
-        message: err.message || "Mesaj gönderilemedi",
-      });
+      console.error("❌ sendMessage Socket.io hatası:", err);
+      socket.emit("errorMessage", { message: err.message });
     }
   });
 
-  socket.on("disconnect", () => {
-    console.log("🔴 Socket ayrıldı:", socket.id);
+    socket.on("disconnect", () => {
+      console.log("🔴 Socket ayrıldı:", socket.id);
+    });
   });
-});
 
 // ----------------------------------------------------
 // 🔹 5) Middleware’ler
