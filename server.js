@@ -70,6 +70,14 @@ io.on("connection", (socket) => {
       // 2️⃣ Odaya gerçek zamanlı yayınla
       io.to(data.roomId).emit("receiveMessage", cleanMessage);
 
+      // 4️⃣ ChatListScreen için — son mesaj güncellemesi
+      io.to(data.roomId).emit("receiveChatUpdate", {
+        roomId: data.roomId,
+        lastMessage: cleanMessage.text || "🎤 Sesli mesaj",
+        lastMessageTime: cleanMessage.time,
+        sender: cleanMessage.sender,
+      });
+
       console.log("📤 Mesaj gönderildi:", savedMessage);
 
     } catch (err) {
